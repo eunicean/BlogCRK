@@ -146,6 +146,59 @@ app.post('/register', async (req, res, next) => {
       next(error);
     }
 });
+
+// Endpoint para obtener todas las cookies
+app.get('/cookies', async (req, res, next) => {
+  try {
+    const cookies = await getAllCookies();
+    res.json(cookies);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Endpoint para crear una nueva cookie
+app.post('/cookies', async (req, res, next) => {
+  try {
+    const { cookieName, typeCookie, battleRole, ability, content, skins, rarity, magicCandyLevel, stateCookie } = req.body;
+    const result = await createCookie(cookieName, typeCookie, battleRole, ability, content, skins, rarity, magicCandyLevel, stateCookie);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Endpoint para obtener una cookie por su ID
+app.get('/cookies/:cookieId', async (req, res, next) => {
+  try {
+    const { cookieId } = req.params;
+    const cookie = await getCookieById(cookieId);
+
+    if (cookie) {
+      res.json(cookie);
+    } else {
+      res.status(404).json({ error: 'Cookie no encontrada' });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Endpoint para eliminar una cookie por su ID
+app.delete('/cookies/:cookieId', async (req, res, next) => {
+  try {
+    const { cookieId } = req.params;
+    const result = await deleteCookie(cookieId);
+
+    if (result) {
+      res.status(204).send();
+    } else {
+      res.status(404).json({ error: 'Cookie no encontrada' });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
   
 app.listen(port, () => {
     console.log(`Server listening at http://127.0.0.1:${port}`)
