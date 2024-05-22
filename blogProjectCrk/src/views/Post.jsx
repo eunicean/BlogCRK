@@ -9,10 +9,19 @@ Post.protoTypes = {
     date: PropTypes.string.isRequired
 }
 
-function Post({idPost}){
+Post.propTypes = {
+    idPost: PropTypes.number.isRequired,
+    navigator: PropTypes.func.isRequired
+};
+
+function Post({idPost, navigator}){
     const URLAPI = `http://127.0.0.1:21231/general-content/${idPost}`;
     const [postContent, setPost] = useState([]);
     const [formattedDate, setFormattedDate] = useState('');
+
+    const goToEditPost = () => {
+        navigator("editPost")
+    }
     
     async function viewPost(){
         try {
@@ -35,6 +44,30 @@ function Post({idPost}){
             console.error(error);
         }
     }
+
+    async function deletePost() {
+        if (!confirm("¿Estás seguro de que quieres eliminar este post?")) {
+            return;
+        };
+        try {
+            const DELETE = `http://127.0.0.1:21231/general-content/${idPost}`;
+            const response = await fetch(DELETE, {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            if (!response.ok) {
+                alert("Ocurrió un error al eliminar el post.")
+                return;
+            }
+
+            alert("Post eliminado correctamente.")
+            navigator("menu");
+        } catch (error) {
+            console.log(error)
+        }
+    }
     
     useEffect(() => {
         viewPost();
@@ -46,6 +79,10 @@ function Post({idPost}){
                 <>
                     <div className="postGCTitle">
                         <p>{postContent.title}</p>
+                        <div>
+                            <button className="postsButtons" onClick={goToEditPost}>Editar</button>
+                            <button className="postsButtons" onClick={deletePost}>Eliminar</button>
+                        </div>
                     </div>
                     <div className="genCardTheme">
                         <p>{postContent.theme}</p>

@@ -7,6 +7,10 @@ function Menu({navigator}) {
     const URLAPI = 'http://127.0.0.1:21231/general-content';
     const [content, setContent] = useState(null);
 
+    const handleCreatePostNavigation = () => {
+        navigator("createPost")
+    }
+
     async function getContent() {
         try {
             const response = await fetch(URLAPI, {
@@ -16,9 +20,8 @@ function Menu({navigator}) {
                 }
             });
 
-            //eliminar o cambiar
             if (!response.ok) {
-                alert("Ocurrió un error cargado los blogs.");
+                alert("Ocurrió un error cargado el blogs.");
                 return;
             };
 
@@ -27,6 +30,7 @@ function Menu({navigator}) {
             setContent(
                 <>
                 <div className="contentContainer">
+                    <button className="addButton" onClick={handleCreatePostNavigation}>+</button>
                     <h1 className="pageTittle">General Posts</h1>
                     <p className="pageTittle2">*̣̥☆·͙̥‧❄•̥̩̥͙‧·‧̩̥‧̩̥·‧•̥̩̥͙❄•̥̩̥͙‧·‧̩̥‧̩̥·‧•̥̩̥͙‧·‧̩̥˟͙☃˟͙‧̩̥·‧•̥̩̥͙‧·‧̩̥•̥̩̥͙‧·‧̩̥❄•̥̩̥͙‧·‧̩̥•̥̩̥͙‧·‧̩̥❄‧·͙̥̣☆*̣̥</p>
 

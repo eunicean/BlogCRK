@@ -4,7 +4,6 @@ import giticon from '@assets/1175028.png'
 function Options({navigator}){
     const toMenu = () => {
         navigator("menu");
-        localStorage.clear()
     };
 
     const toCookies = () => {
@@ -20,10 +19,9 @@ function Options({navigator}){
 }
 
 function Header({ navigator }) {
-
-    
-
-    
+    const toLogNavigator = () => {
+        navigator("login")
+    };
     return(
         <div>
             <header>
@@ -32,7 +30,7 @@ function Header({ navigator }) {
                     <h1>Cookie Run Kingdom Blog</h1>
                 </div>
              <div className='rigthcontent'>
-                <button className='loginButton'>Login</button>
+                <button className='loginButton' onClick={toLogNavigator} >Logout</button>
                 <a href="https://github.com/eunicean/BlogCRK" className='gitIcon'><img src={giticon} alt="Github" height={"50px"}/></a>
              </div>
              
@@ -41,8 +39,6 @@ function Header({ navigator }) {
         </div>
         
     );
-
-
 };
 
 export default Header;

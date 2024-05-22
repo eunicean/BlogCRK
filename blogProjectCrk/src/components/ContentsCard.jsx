@@ -9,8 +9,6 @@ ContentsCard.protoTypes = {
 }
 
 function ContentsCard({id, title, content, theme, date , navigator}) {
-
-    //cambiar, la intencion es que si se selecciona el blog que me envie a la vista de este
     const handleBlogSelection = () => {
         localStorage.setItem("postId", id);
         navigator("post");

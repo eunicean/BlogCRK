@@ -8,7 +8,12 @@ import {
     updateGeneralContent,
     getAllUsers,
     createUser,
-    getUserByEmailAndPassword
+    getUserByEmailAndPassword,
+    deleteCookie,
+    getCookieById,
+    createCookie,
+    getAllCookies,
+    updateCookieById 
 } from './db.js'
 
 
@@ -192,6 +197,44 @@ app.delete('/cookies/:cookieId', async (req, res, next) => {
 
     if (result) {
       res.status(204).send();
+    } else {
+      res.status(404).json({ error: 'Cookie no encontrada' });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.put('/cookies/:cookieId', async (req, res, next) => {
+  try {
+    const { cookieId } = req.params;
+    const {
+      cookieName,
+      typeCookie,
+      battleRole,
+      ability,
+      content,
+      skins,
+      rarity,
+      magicCandyLevel,
+      stateCookie
+    } = req.body;
+    
+    const result = await updateCookieById(
+      cookieId,
+      cookieName,
+      typeCookie,
+      battleRole,
+      ability,
+      content,
+      skins,
+      rarity,
+      magicCandyLevel,
+      stateCookie
+    );
+
+    if (result) {
+      res.json({ success: true });
     } else {
       res.status(404).json({ error: 'Cookie no encontrada' });
     }

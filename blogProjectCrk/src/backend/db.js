@@ -135,3 +135,34 @@ export async function deleteCookie(cookieId) {
         return false;
     }
 }
+
+export async function updateCookieById(
+    cookieId,
+    cookieName,
+    typeCookie,
+    battleRole,
+    ability,
+    content,
+    skins,
+    rarity,
+    magicCandyLevel,
+    stateCookie
+) {
+    try {
+        const [result] = await conn.query(
+            'UPDATE my_cookies SET cookie_name = ?, typeCookie = ?, battle_role = ?, ability = ?, content = ?, skins = ?, rarity = ?, magicCandyLevel = ?, stateCookie = ?, created_at = CURRENT_TIMESTAMP WHERE id = ?',
+            [cookieName, typeCookie, battleRole, ability, content, skins, rarity, magicCandyLevel, stateCookie, cookieId]
+        );
+
+        if (result.affectedRows === 1) {
+            console.log(`La cookie con ID ${cookieId} fue actualizada exitosamente.`);
+            return true;
+        } else {
+            console.error(`No se encontró ninguna cookie con el ID ${cookieId} para actualizar.`);
+            return false;
+        }
+    } catch (error) {
+        console.error('Error al intentar actualizar la cookie:', error);
+        return false;
+    }
+}
